@@ -1,0 +1,1739 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Painel do Dr. Thiago Henrique - VP+ Sistema</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary-color: #06b6d4;
+            --secondary-color: #0891b2;
+            --accent-color: #0e7490;
+            --success-color: #10b981;
+            --warning-color: #f59e0b;
+            --error-color: #ef4444;
+            --dark-bg: #ffffff;
+            --card-bg: #f8fafc;
+            --text-primary: #1e293b;
+            --text-secondary: #64748b;
+            --border-color: #e2e8f0;
+            --glass-bg: rgba(248, 250, 252, 0.8);
+            --shadow-soft: 0 4px 6px -1px rgba(6, 182, 212, 0.1);
+            --shadow-medium: 0 10px 15px -3px rgba(6, 182, 212, 0.1);
+            --shadow-large: 0 25px 50px -12px rgba(6, 182, 212, 0.15);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: linear-gradient(135deg, var(--dark-bg) 0%, #f8fafc 50%, #e2e8f0 100%);
+            min-height: 100vh;
+            color: var(--text-primary);
+            overflow-x: hidden;
+        }
+
+        .dashboard-container {
+            display: flex;
+            min-height: 100vh;
+        }
+
+        /* Sidebar */
+        .sidebar {
+            width: 320px;
+            background: rgba(255, 255, 255, 0.9);
+            backdrop-filter: blur(20px);
+            border-right: 1px solid var(--border-color);
+            padding: 2rem 0;
+            position: fixed;
+            height: 100vh;
+            overflow-y: auto;
+            z-index: 1000;
+        }
+
+        .sidebar-header {
+            padding: 0 2rem 1.5rem;
+            border-bottom: 1px solid var(--border-color);
+            margin-bottom: 1rem;
+        }
+
+        .logo-brand {
+            font-weight: 800;
+            font-size: 1.8rem;
+            background: linear-gradient(135deg, var(--primary-color), var(--accent-color));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 1.5rem;
+        }
+
+        .user-profile {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            padding: 1.5rem;
+            background: rgba(6, 182, 212, 0.05);
+            border-radius: 16px;
+            border: 1px solid rgba(6, 182, 212, 0.1);
+        }
+
+        .user-avatar {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--primary-color), var(--accent-color));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: 700;
+            font-size: 1.5rem;
+            position: relative;
+        }
+
+        .user-avatar::after {
+            content: '';
+            position: absolute;
+            bottom: 2px;
+            right: 2px;
+            width: 16px;
+            height: 16px;
+            background: var(--success-color);
+            border: 2px solid white;
+            border-radius: 50%;
+        }
+
+        .user-details h4 {
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: var(--text-primary);
+            margin-bottom: 0.3rem;
+        }
+
+        .user-details p {
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+            margin-bottom: 0.3rem;
+        }
+
+        .user-status {
+            background: rgba(16, 185, 129, 0.1);
+            color: var(--success-color);
+            padding: 0.2rem 0.6rem;
+            border-radius: 12px;
+            font-size: 0.8rem;
+            font-weight: 500;
+        }
+
+
+        .sidebar-nav {
+            padding: 0 1rem;
+            margin-top: 0.5rem;
+        }
+
+        .nav-section {
+            margin-bottom: 2rem;
+        }
+
+        .nav-section h5 {
+            font-size: 0.8rem;
+            font-weight: 600;
+            color: var(--text-secondary);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-bottom: 1rem;
+            padding: 0 1rem;
+        }
+
+        .nav-item {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            padding: 0.8rem 1rem;
+            margin-bottom: 0.5rem;
+            border-radius: 12px;
+            color: var(--text-secondary);
+            text-decoration: none;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+
+        .nav-item:hover {
+            background: rgba(6, 182, 212, 0.1);
+            color: var(--primary-color);
+            transform: translateX(4px);
+        }
+
+        .nav-item.active {
+            background: linear-gradient(135deg, var(--primary-color), var(--accent-color));
+            color: white;
+            box-shadow: var(--shadow-medium);
+        }
+
+        .nav-item i {
+            width: 20px;
+            text-align: center;
+        }
+
+        .logout-btn {
+            margin: 2rem 1rem 0;
+            background: linear-gradient(135deg, var(--error-color), #dc2626);
+            color: white;
+            border: none;
+            border-radius: 12px;
+            padding: 0.8rem 1.5rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+            width: calc(100% - 2rem);
+        }
+
+        .logout-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-medium);
+        }
+
+        /* Main Content */
+        .main-content {
+            flex: 1;
+            margin-left: 320px;
+            padding: 2rem;
+        }
+
+        .top-bar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 2rem;
+            padding: 1rem 0;
+        }
+
+        .page-title {
+            font-size: 2rem;
+            font-weight: 700;
+            color: var(--text-primary);
+        }
+
+        .page-subtitle {
+            color: var(--text-secondary);
+            margin-top: 0.5rem;
+        }
+
+        .top-actions {
+            display: flex;
+            gap: 1rem;
+            align-items: center;
+        }
+
+        .notification-btn {
+            position: relative;
+            background: rgba(255, 255, 255, 0.9);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            padding: 0.8rem;
+            color: var(--text-secondary);
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .notification-btn:hover {
+            background: rgba(6, 182, 212, 0.1);
+            color: var(--primary-color);
+        }
+
+        .notification-badge {
+            position: absolute;
+            top: -4px;
+            right: -4px;
+            background: var(--error-color);
+            color: white;
+            border-radius: 50%;
+            width: 20px;
+            height: 20px;
+            font-size: 0.7rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 600;
+        }
+
+        /* Stats Grid */
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+
+        .stat-card {
+            background: rgba(255, 255, 255, 0.9);
+            backdrop-filter: blur(20px);
+            border: 1px solid var(--border-color);
+            border-radius: 16px;
+            padding: 1.5rem;
+            box-shadow: var(--shadow-soft);
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .stat-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 3px;
+            background: linear-gradient(90deg, var(--primary-color), var(--accent-color));
+        }
+
+        .stat-card:hover {
+            transform: translateY(-4px);
+            box-shadow: var(--shadow-medium);
+            cursor: pointer;
+        }
+
+        /* Modal Styles */
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 10000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            backdrop-filter: blur(5px);
+            animation: fadeIn 0.3s ease;
+        }
+
+        .modal.show {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .modal-content {
+            background: white;
+            border-radius: 20px;
+            padding: 2rem;
+            max-width: 600px;
+            width: 90%;
+            max-height: 80vh;
+            overflow-y: auto;
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+            animation: slideInUp 0.3s ease;
+            position: relative;
+        }
+
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1.5rem;
+            padding-bottom: 1rem;
+            border-bottom: 2px solid var(--border-color);
+        }
+
+        .modal-title {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--text-primary);
+            display: flex;
+            align-items: center;
+            gap: 0.8rem;
+        }
+
+        .modal-icon {
+            width: 50px;
+            height: 50px;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 1.5rem;
+        }
+
+        .modal-icon.primary {
+            background: linear-gradient(135deg, var(--primary-color), var(--accent-color));
+        }
+
+        .modal-icon.success {
+            background: linear-gradient(135deg, var(--success-color), #059669);
+        }
+
+        .modal-icon.warning {
+            background: linear-gradient(135deg, var(--warning-color), #d97706);
+        }
+
+        .modal-icon.error {
+            background: linear-gradient(135deg, var(--error-color), #dc2626);
+        }
+
+        .close-btn {
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            color: var(--text-secondary);
+            cursor: pointer;
+            padding: 0.5rem;
+            border-radius: 50%;
+            transition: all 0.3s ease;
+        }
+
+        .close-btn:hover {
+            background: rgba(239, 68, 68, 0.1);
+            color: var(--error-color);
+        }
+
+        .modal-body {
+            margin-bottom: 1.5rem;
+        }
+
+        .modal-section {
+            margin-bottom: 1.5rem;
+        }
+
+        .modal-section:last-child {
+            margin-bottom: 0;
+        }
+
+        .modal-section h4 {
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: var(--text-primary);
+            margin-bottom: 0.8rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .modal-section h4 i {
+            color: var(--primary-color);
+        }
+
+        .info-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1rem;
+        }
+
+        .info-item {
+            background: rgba(6, 182, 212, 0.05);
+            border: 1px solid rgba(6, 182, 212, 0.1);
+            border-radius: 12px;
+            padding: 1rem;
+            text-align: center;
+        }
+
+        .info-item h5 {
+            font-size: 0.9rem;
+            font-weight: 600;
+            color: var(--text-primary);
+            margin-bottom: 0.5rem;
+        }
+
+        .info-item p {
+            font-size: 1.2rem;
+            font-weight: 700;
+            color: var(--primary-color);
+        }
+
+        .modal-list {
+            list-style: none;
+            padding: 0;
+        }
+
+        .modal-list li {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0.8rem 0;
+            border-bottom: 1px solid rgba(226, 232, 240, 0.5);
+        }
+
+        .modal-list li:last-child {
+            border-bottom: none;
+        }
+
+        .modal-list li span:first-child {
+            color: var(--text-secondary);
+            font-weight: 500;
+        }
+
+        .modal-list li span:last-child {
+            color: var(--text-primary);
+            font-weight: 600;
+        }
+
+        .modal-footer {
+            display: flex;
+            justify-content: flex-end;
+            gap: 1rem;
+            padding-top: 1rem;
+            border-top: 1px solid var(--border-color);
+        }
+
+        .modal-btn {
+            padding: 0.8rem 1.5rem;
+            border: none;
+            border-radius: 12px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .modal-btn.primary {
+            background: linear-gradient(135deg, var(--primary-color), var(--accent-color));
+            color: white;
+        }
+
+        .modal-btn.primary:hover {
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-medium);
+        }
+
+        .modal-btn.secondary {
+            background: rgba(100, 116, 139, 0.1);
+            color: var(--text-secondary);
+        }
+
+        .modal-btn.secondary:hover {
+            background: rgba(100, 116, 139, 0.2);
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        @keyframes slideInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .stat-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1rem;
+        }
+
+        .stat-title {
+            font-size: 0.9rem;
+            font-weight: 600;
+            color: var(--text-secondary);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .stat-icon {
+            width: 40px;
+            height: 40px;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 1.2rem;
+        }
+
+        .stat-icon.primary {
+            background: linear-gradient(135deg, var(--primary-color), var(--accent-color));
+        }
+
+        .stat-icon.success {
+            background: linear-gradient(135deg, var(--success-color), #059669);
+        }
+
+        .stat-icon.warning {
+            background: linear-gradient(135deg, var(--warning-color), #d97706);
+        }
+
+        .stat-icon.error {
+            background: linear-gradient(135deg, var(--error-color), #dc2626);
+        }
+
+        .stat-value {
+            font-size: 2rem;
+            font-weight: 700;
+            color: var(--text-primary);
+            margin-bottom: 0.5rem;
+        }
+
+        .stat-change {
+            font-size: 0.8rem;
+            display: flex;
+            align-items: center;
+            gap: 0.3rem;
+        }
+
+        .stat-change.positive {
+            color: var(--success-color);
+        }
+
+        .stat-change.negative {
+            color: var(--error-color);
+        }
+
+        /* Content Grid */
+        .content-grid {
+            display: grid;
+            grid-template-columns: 2fr 1fr;
+            gap: 2rem;
+        }
+
+        .content-card {
+            background: rgba(255, 255, 255, 0.9);
+            backdrop-filter: blur(20px);
+            border: 1px solid var(--border-color);
+            border-radius: 16px;
+            padding: 1.5rem;
+            box-shadow: var(--shadow-soft);
+        }
+
+        .card-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1.5rem;
+            padding-bottom: 1rem;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .card-title {
+            font-size: 1.2rem;
+            font-weight: 600;
+            color: var(--text-primary);
+        }
+
+        .card-action {
+            color: var(--primary-color);
+            text-decoration: none;
+            font-size: 0.9rem;
+            font-weight: 500;
+            transition: all 0.3s ease;
+        }
+
+        .card-action:hover {
+            color: var(--accent-color);
+        }
+
+        /* Quick Actions */
+        .quick-actions {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 1rem;
+        }
+
+        .quick-action {
+            background: rgba(6, 182, 212, 0.05);
+            border: 1px solid rgba(6, 182, 212, 0.1);
+            border-radius: 12px;
+            padding: 1.5rem;
+            text-align: center;
+            text-decoration: none;
+            color: var(--text-primary);
+            transition: all 0.3s ease;
+        }
+
+        .quick-action:hover {
+            background: rgba(6, 182, 212, 0.1);
+            border-color: var(--primary-color);
+            transform: translateY(-2px);
+        }
+
+        .quick-action i {
+            font-size: 2rem;
+            color: var(--primary-color);
+            margin-bottom: 1rem;
+        }
+
+        .quick-action h4 {
+            font-size: 1rem;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+        }
+
+        .quick-action p {
+            font-size: 0.8rem;
+            color: var(--text-secondary);
+        }
+
+        /* Activity Feed */
+        .activity-item {
+            display: flex;
+            gap: 1rem;
+            padding: 1rem 0;
+            border-bottom: 1px solid rgba(226, 232, 240, 0.5);
+        }
+
+        .activity-item:last-child {
+            border-bottom: none;
+        }
+
+        .activity-icon {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 0.9rem;
+            flex-shrink: 0;
+        }
+
+        .activity-icon.primary {
+            background: linear-gradient(135deg, var(--primary-color), var(--accent-color));
+        }
+
+        .activity-icon.success {
+            background: linear-gradient(135deg, var(--success-color), #059669);
+        }
+
+        .activity-icon.warning {
+            background: linear-gradient(135deg, var(--warning-color), #d97706);
+        }
+
+        .activity-content h5 {
+            font-size: 0.9rem;
+            font-weight: 600;
+            color: var(--text-primary);
+            margin-bottom: 0.3rem;
+        }
+
+        .activity-content p {
+            font-size: 0.8rem;
+            color: var(--text-secondary);
+            margin-bottom: 0.3rem;
+        }
+
+        .activity-time {
+            font-size: 0.7rem;
+            color: var(--text-secondary);
+        }
+
+        /* Responsive */
+        @media (max-width: 1200px) {
+            .sidebar {
+                width: 260px;
+            }
+
+            .main-content {
+                margin-left: 260px;
+            }
+
+            .stats-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .content-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        @media (max-width: 1024px) {
+            .sidebar {
+                transform: translateX(-100%);
+                transition: transform 0.3s ease;
+                width: 280px;
+            }
+
+            .sidebar.open {
+                transform: translateX(0);
+            }
+
+            .main-content {
+                margin-left: 0;
+            }
+
+            .stats-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .content-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .modal-content {
+                width: 90%;
+                max-width: 800px;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .main-content {
+                padding: 1rem;
+            }
+
+            .stats-grid {
+                grid-template-columns: 1fr;
+                gap: 1rem;
+            }
+
+            .top-bar {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 1rem;
+                padding: 1rem;
+            }
+
+            .top-actions {
+                width: 100%;
+                justify-content: space-between;
+            }
+
+            .quick-actions {
+                grid-template-columns: 1fr;
+            }
+
+            .breadcrumb {
+                font-size: 0.9rem;
+            }
+
+            .modal-content {
+                width: 95%;
+                max-width: 600px;
+                margin: 1rem;
+            }
+
+            .modal-header {
+                padding: 1rem;
+            }
+
+            .modal-body {
+                padding: 1rem;
+            }
+
+            .info-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .main-content {
+                padding: 0.5rem;
+            }
+
+            .stats-grid {
+                gap: 0.8rem;
+            }
+
+            .stat-card {
+                padding: 1rem;
+            }
+
+            .stat-title {
+                font-size: 0.9rem;
+            }
+
+            .stat-value {
+                font-size: 1.5rem;
+            }
+
+            .top-bar {
+                padding: 0.8rem;
+            }
+
+            .breadcrumb {
+                font-size: 0.8rem;
+            }
+
+            .modal-content {
+                width: 98%;
+                margin: 0.5rem;
+            }
+
+            .modal-header {
+                padding: 0.8rem;
+            }
+
+            .modal-body {
+                padding: 0.8rem;
+            }
+
+            .modal-title {
+                font-size: 1.1rem;
+            }
+
+            .modal-list li {
+                padding: 0.6rem 0;
+                font-size: 0.9rem;
+            }
+
+            .quick-actions {
+                gap: 0.8rem;
+            }
+
+            .quick-action-btn {
+                padding: 0.8rem;
+                font-size: 0.9rem;
+            }
+        }
+
+        /* Mobile Menu Toggle */
+        .mobile-menu-btn {
+            display: none;
+            background: rgba(255, 255, 255, 0.9);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            padding: 0.8rem;
+            color: var(--text-secondary);
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        @media (max-width: 1024px) {
+            .mobile-menu-btn {
+                display: block;
+            }
+        }
+
+        .mobile-menu-btn:hover {
+            background: rgba(6, 182, 212, 0.1);
+            color: var(--primary-color);
+        }
+    </style>
+</head>
+<body>
+    <div class="dashboard-container">
+        <!-- Sidebar -->
+        <aside class="sidebar" id="sidebar">
+            <div class="sidebar-header">
+                <div class="logo-brand">VP+</div>
+                <div class="user-profile">
+                    <div class="user-avatar">TH</div>
+                    <div class="user-details">
+                        <h4>Dr. Thiago</h4>
+                        <p>Cardiologista</p>
+                        <span class="user-status">Online</span>
+                    </div>
+                </div>
+            </div>
+
+
+            <nav class="sidebar-nav">
+                <div class="nav-section">
+                    <h5>Principal</h5>
+                    <a href="#" class="nav-item active">
+                        <i class="fas fa-tachometer-alt"></i>
+                        Dashboard
+                    </a>
+                    <a href="#" class="nav-item">
+                        <i class="fas fa-calendar-check"></i>
+                        Agenda
+                    </a>
+                    <a href="#" class="nav-item">
+                        <i class="fas fa-users"></i>
+                        Pacientes
+                    </a>
+                </div>
+
+                <div class="nav-section">
+                    <h5>Consultas</h5>
+                    <a href="#" class="nav-item">
+                        <i class="fas fa-stethoscope"></i>
+                        Consultas
+                    </a>
+                    <a href="#" class="nav-item">
+                        <i class="fas fa-video"></i>
+                        Teleconsultas
+                    </a>
+                    <a href="#" class="nav-item">
+                        <i class="fas fa-file-medical"></i>
+                        Prontuários
+                    </a>
+                </div>
+
+                <div class="nav-section">
+                    <h5>Exames</h5>
+                    <a href="#" class="nav-item">
+                        <i class="fas fa-vial"></i>
+                        Solicitar Exames
+                    </a>
+                    <a href="#" class="nav-item">
+                        <i class="fas fa-chart-line"></i>
+                        Resultados
+                    </a>
+                </div>
+
+                <div class="nav-section">
+                    <h5>Sistema</h5>
+                    <a href="#" class="nav-item">
+                        <i class="fas fa-cog"></i>
+                        Configurações
+                    </a>
+                    <a href="#" class="nav-item">
+                        <i class="fas fa-question-circle"></i>
+                        Ajuda
+                    </a>
+                </div>
+            </nav>
+
+            <button class="logout-btn" onclick="logout()">
+                <i class="fas fa-sign-out-alt"></i>
+                Sair
+            </button>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <div class="top-bar">
+                <div>
+                    <button class="mobile-menu-btn" onclick="toggleSidebar()">
+                        <i class="fas fa-bars"></i>
+                    </button>
+                    <h1 class="page-title">Painel do Dr. Thiago Henrique</h1>
+                    <p class="page-subtitle">Cardiologista Clínico - Gerencie suas consultas e pacientes</p>
+                </div>
+                <div class="top-actions">
+                    <button class="notification-btn">
+                        <i class="fas fa-bell"></i>
+                        <span class="notification-badge">4</span>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Stats Grid -->
+            <div class="stats-grid">
+                <div class="stat-card" onclick="openModal('consultasModal')">
+                    <div class="stat-header">
+                        <span class="stat-title">Consultas Hoje</span>
+                        <div class="stat-icon primary">
+                            <i class="fas fa-calendar-check"></i>
+                        </div>
+                    </div>
+                    <div class="stat-value">8</div>
+                    <div class="stat-change positive">
+                        <i class="fas fa-arrow-up"></i>
+                        +2 vs ontem
+                    </div>
+                </div>
+
+                <div class="stat-card" onclick="openModal('pacientesModal')">
+                    <div class="stat-header">
+                        <span class="stat-title">Pacientes Ativos</span>
+                        <div class="stat-icon success">
+                            <i class="fas fa-users"></i>
+                        </div>
+                    </div>
+                    <div class="stat-value">156</div>
+                    <div class="stat-change positive">
+                        <i class="fas fa-arrow-up"></i>
+                        +12 este mês
+                    </div>
+                </div>
+
+                <div class="stat-card" onclick="openModal('examesModal')">
+                    <div class="stat-header">
+                        <span class="stat-title">Exames Pendentes</span>
+                        <div class="stat-icon warning">
+                            <i class="fas fa-vial"></i>
+                        </div>
+                    </div>
+                    <div class="stat-value">23</div>
+                    <div class="stat-change negative">
+                        <i class="fas fa-clock"></i>
+                        Aguardando
+                    </div>
+                </div>
+
+                <div class="stat-card" onclick="openModal('teleconsultasModal')">
+                    <div class="stat-header">
+                        <span class="stat-title">Teleconsultas</span>
+                        <div class="stat-icon primary">
+                            <i class="fas fa-video"></i>
+                        </div>
+                    </div>
+                    <div class="stat-value">5</div>
+                    <div class="stat-change positive">
+                        <i class="fas fa-check"></i>
+                        Agendadas
+                    </div>
+                </div>
+            </div>
+
+            <!-- Modals -->
+            <!-- Modal Consultas Hoje -->
+            <div id="consultasModal" class="modal">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <div class="modal-title">
+                            <div class="modal-icon primary">
+                                <i class="fas fa-calendar-check"></i>
+                            </div>
+                            Consultas de Hoje
+                        </div>
+                        <button class="close-btn" onclick="closeModal('consultasModal')">
+                            <i class="fas fa-times"></i>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="modal-section">
+                            <h4><i class="fas fa-chart-bar"></i> Resumo do Dia</h4>
+                            <div class="info-grid">
+                                <div class="info-item">
+                                    <h5>Total de Consultas</h5>
+                                    <p>8</p>
+                                </div>
+                                <div class="info-item">
+                                    <h5>Realizadas</h5>
+                                    <p>3</p>
+                                </div>
+                                <div class="info-item">
+                                    <h5>Pendentes</h5>
+                                    <p>5</p>
+                                </div>
+                                <div class="info-item">
+                                    <h5>Canceladas</h5>
+                                    <p>0</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="modal-section">
+                            <h4><i class="fas fa-clock"></i> Próximas Consultas</h4>
+                            <ul class="modal-list">
+                                <li>
+                                    <span>09:30 - Maria Fernanda Oliveira</span>
+                                    <span>Retorno - Hipertensão (45 anos)</span>
+                                </li>
+                                <li>
+                                    <span>10:15 - José Carlos Mendes</span>
+                                    <span>Primeira consulta - Arritmia (52 anos)</span>
+                                </li>
+                                <li>
+                                    <span>11:00 - Ana Beatriz Santos</span>
+                                    <span>Teleconsulta - Acompanhamento (38 anos)</span>
+                                </li>
+                                <li>
+                                    <span>14:30 - Roberto Almeida</span>
+                                    <span>Retorno - Insuficiência Cardíaca (67 anos)</span>
+                                </li>
+                                <li>
+                                    <span>15:45 - Lucília Pereira</span>
+                                    <span>Consulta de rotina (41 anos)</span>
+                                </li>
+                                <li>
+                                    <span>16:30 - Carlos Eduardo Lima</span>
+                                    <span>Retorno - Angina (59 anos)</span>
+                                </li>
+                                <li>
+                                    <span>17:15 - Patrícia Costa</span>
+                                    <span>Primeira consulta - Dor no peito (34 anos)</span>
+                                </li>
+                            </ul>
+                        </div>
+                        <div class="modal-section">
+                            <h4><i class="fas fa-chart-bar"></i> Consultas por Tipo</h4>
+                            <div class="info-grid">
+                                <div class="info-item">
+                                    <h5>Retornos</h5>
+                                    <p>4</p>
+                                </div>
+                                <div class="info-item">
+                                    <h5>Primeiras Consultas</h5>
+                                    <p>2</p>
+                                </div>
+                                <div class="info-item">
+                                    <h5>Teleconsultas</h5>
+                                    <p>1</p>
+                                </div>
+                                <div class="info-item">
+                                    <h5>Urgências</h5>
+                                    <p>0</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button class="modal-btn secondary" onclick="closeModal('consultasModal')">Fechar</button>
+                        <button class="modal-btn primary" onclick="viewFullSchedule()">Ver Agenda Completa</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Modal Pacientes Ativos -->
+            <div id="pacientesModal" class="modal">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <div class="modal-title">
+                            <div class="modal-icon success">
+                                <i class="fas fa-users"></i>
+                            </div>
+                            Pacientes Ativos
+                        </div>
+                        <button class="close-btn" onclick="closeModal('pacientesModal')">
+                            <i class="fas fa-times"></i>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="modal-section">
+                            <h4><i class="fas fa-chart-pie"></i> Estatísticas</h4>
+                            <div class="info-grid">
+                                <div class="info-item">
+                                    <h5>Total de Pacientes</h5>
+                                    <p>156</p>
+                                </div>
+                                <div class="info-item">
+                                    <h5>Novos este Mês</h5>
+                                    <p>12</p>
+                                </div>
+                                <div class="info-item">
+                                    <h5>Consultas Agendadas</h5>
+                                    <p>23</p>
+                                </div>
+                                <div class="info-item">
+                                    <h5>Taxa de Retorno</h5>
+                                    <p>85%</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="modal-section">
+                            <h4><i class="fas fa-user-plus"></i> Pacientes Recentes</h4>
+                            <ul class="modal-list">
+                                <li>
+                                    <span>Fernanda Rodrigues (45 anos)</span>
+                                    <span>Hipertensão - Há 2 dias</span>
+                                </li>
+                                <li>
+                                    <span>Marcos Antônio Silva (62 anos)</span>
+                                    <span>Arritmia - Há 5 dias</span>
+                                </li>
+                                <li>
+                                    <span>Patrícia Costa Lima (38 anos)</span>
+                                    <span>Dor no peito - Há 1 semana</span>
+                                </li>
+                                <li>
+                                    <span>Antônio José Santos (71 anos)</span>
+                                    <span>Insuficiência Cardíaca - Há 1 semana</span>
+                                </li>
+                                <li>
+                                    <span>Juliana Mendes (29 anos)</span>
+                                    <span>Palpitações - Há 2 semanas</span>
+                                </li>
+                                <li>
+                                    <span>Carlos Eduardo Lima (59 anos)</span>
+                                    <span>Angina - Há 2 semanas</span>
+                                </li>
+                                <li>
+                                    <span>Lucília Pereira (41 anos)</span>
+                                    <span>Prevenção - Há 3 semanas</span>
+                                </li>
+                            </ul>
+                        </div>
+                        <div class="modal-section">
+                            <h4><i class="fas fa-heartbeat"></i> Condições Mais Comuns</h4>
+                            <div class="info-grid">
+                                <div class="info-item">
+                                    <h5>Hipertensão</h5>
+                                    <p>45 pacientes</p>
+                                </div>
+                                <div class="info-item">
+                                    <h5>Arritmia</h5>
+                                    <p>23 pacientes</p>
+                                </div>
+                                <div class="info-item">
+                                    <h5>Insuficiência Cardíaca</h5>
+                                    <p>18 pacientes</p>
+                                </div>
+                                <div class="info-item">
+                                    <h5>Angina</h5>
+                                    <p>15 pacientes</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button class="modal-btn secondary" onclick="closeModal('pacientesModal')">Fechar</button>
+                        <button class="modal-btn primary" onclick="viewAllPatients()">Ver Todos os Pacientes</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Modal Exames Pendentes -->
+            <div id="examesModal" class="modal">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <div class="modal-title">
+                            <div class="modal-icon warning">
+                                <i class="fas fa-vial"></i>
+                            </div>
+                            Exames Pendentes
+                        </div>
+                        <button class="close-btn" onclick="closeModal('examesModal')">
+                            <i class="fas fa-times"></i>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="modal-section">
+                            <h4><i class="fas fa-exclamation-triangle"></i> Status dos Exames</h4>
+                            <div class="info-grid">
+                                <div class="info-item">
+                                    <h5>Total Pendentes</h5>
+                                    <p>23</p>
+                                </div>
+                                <div class="info-item">
+                                    <h5>Urgentes</h5>
+                                    <p>3</p>
+                                </div>
+                                <div class="info-item">
+                                    <h5>Em Análise</h5>
+                                    <p>15</p>
+                                </div>
+                                <div class="info-item">
+                                    <h5>Aguardando</h5>
+                                    <p>5</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="modal-section">
+                            <h4><i class="fas fa-list"></i> Exames Urgentes</h4>
+                            <ul class="modal-list">
+                                <li>
+                                    <span>Ecocardiograma - Maria Fernanda Oliveira</span>
+                                    <span>Urgente - Há 2h</span>
+                                </li>
+                                <li>
+                                    <span>Holter 24h - José Carlos Mendes</span>
+                                    <span>Urgente - Há 4h</span>
+                                </li>
+                                <li>
+                                    <span>Teste Ergométrico - Roberto Almeida</span>
+                                    <span>Urgente - Há 6h</span>
+                                </li>
+                                <li>
+                                    <span>Cateterismo - Antônio José Santos</span>
+                                    <span>Urgente - Há 8h</span>
+                                </li>
+                                <li>
+                                    <span>Ressonância Cardíaca - Patrícia Costa</span>
+                                    <span>Urgente - Há 12h</span>
+                                </li>
+                            </ul>
+                        </div>
+                        <div class="modal-section">
+                            <h4><i class="fas fa-microscope"></i> Exames por Tipo</h4>
+                            <div class="info-grid">
+                                <div class="info-item">
+                                    <h5>Ecocardiograma</h5>
+                                    <p>8</p>
+                                </div>
+                                <div class="info-item">
+                                    <h5>Holter 24h</h5>
+                                    <p>6</p>
+                                </div>
+                                <div class="info-item">
+                                    <h5>Teste Ergométrico</h5>
+                                    <p>5</p>
+                                </div>
+                                <div class="info-item">
+                                    <h5>Cateterismo</h5>
+                                    <p>4</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button class="modal-btn secondary" onclick="closeModal('examesModal')">Fechar</button>
+                        <button class="modal-btn primary" onclick="viewAllExams()">Ver Todos os Exames</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Modal Teleconsultas -->
+            <div id="teleconsultasModal" class="modal">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <div class="modal-title">
+                            <div class="modal-icon primary">
+                                <i class="fas fa-video"></i>
+                            </div>
+                            Teleconsultas
+                        </div>
+                        <button class="close-btn" onclick="closeModal('teleconsultasModal')">
+                            <i class="fas fa-times"></i>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="modal-section">
+                            <h4><i class="fas fa-calendar-alt"></i> Agendamentos</h4>
+                            <div class="info-grid">
+                                <div class="info-item">
+                                    <h5>Agendadas</h5>
+                                    <p>5</p>
+                                </div>
+                                <div class="info-item">
+                                    <h5>Realizadas Hoje</h5>
+                                    <p>2</p>
+                                </div>
+                                <div class="info-item">
+                                    <h5>Próximas</h5>
+                                    <p>3</p>
+                                </div>
+                                <div class="info-item">
+                                    <h5>Taxa de Sucesso</h5>
+                                    <p>95%</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="modal-section">
+                            <h4><i class="fas fa-clock"></i> Próximas Teleconsultas</h4>
+                            <ul class="modal-list">
+                                <li>
+                                    <span>11:00 - Ana Beatriz Santos</span>
+                                    <span>Acompanhamento - Hipertensão (38 anos)</span>
+                                </li>
+                                <li>
+                                    <span>15:30 - Carlos Eduardo Lima</span>
+                                    <span>Retorno - Arritmia (59 anos)</span>
+                                </li>
+                                <li>
+                                    <span>16:45 - Mariana Silva</span>
+                                    <span>Primeira consulta - Dor no peito (42 anos)</span>
+                                </li>
+                                <li>
+                                    <span>17:30 - João Pedro Mendes</span>
+                                    <span>Retorno - Insuficiência Cardíaca (68 anos)</span>
+                                </li>
+                                <li>
+                                    <span>18:15 - Lucília Pereira</span>
+                                    <span>Acompanhamento - Prevenção (41 anos)</span>
+                                </li>
+                            </ul>
+                        </div>
+                        <div class="modal-section">
+                            <h4><i class="fas fa-chart-line"></i> Estatísticas de Teleconsultas</h4>
+                            <div class="info-grid">
+                                <div class="info-item">
+                                    <h5>Duração Média</h5>
+                                    <p>25 min</p>
+                                </div>
+                                <div class="info-item">
+                                    <h5>Qualidade de Conexão</h5>
+                                    <p>98%</p>
+                                </div>
+                                <div class="info-item">
+                                    <h5>Satisfação</h5>
+                                    <p>4.8/5</p>
+                                </div>
+                                <div class="info-item">
+                                    <h5>Cancelamentos</h5>
+                                    <p>2%</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button class="modal-btn secondary" onclick="closeModal('teleconsultasModal')">Fechar</button>
+                        <button class="modal-btn primary" onclick="startTeleconsultation()">Iniciar Teleconsulta</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Content Grid -->
+            <div class="content-grid">
+                <div class="content-card">
+                    <div class="card-header">
+                        <h3 class="card-title">Ações Rápidas</h3>
+                        <a href="#" class="card-action">Ver todas</a>
+                    </div>
+                    <div class="quick-actions">
+                        <a href="#" class="quick-action">
+                            <i class="fas fa-calendar-plus"></i>
+                            <h4>Nova Consulta</h4>
+                            <p>Agendar consulta presencial</p>
+                        </a>
+                        <a href="#" class="quick-action">
+                            <i class="fas fa-video"></i>
+                            <h4>Teleconsulta</h4>
+                            <p>Iniciar consulta online</p>
+                        </a>
+                        <a href="#" class="quick-action">
+                            <i class="fas fa-vial"></i>
+                            <h4>Solicitar Exame</h4>
+                            <p>Prescrever exames</p>
+                        </a>
+                        <a href="#" class="quick-action">
+                            <i class="fas fa-file-medical"></i>
+                            <h4>Prontuário</h4>
+                            <p>Consultar histórico</p>
+                        </a>
+                    </div>
+                </div>
+
+                <div class="content-card">
+                    <div class="card-header">
+                        <h3 class="card-title">Agenda de Hoje</h3>
+                        <a href="#" class="card-action">Ver agenda</a>
+                    </div>
+                    <div class="activity-feed">
+                        <div class="activity-item">
+                            <div class="activity-icon primary">
+                                <i class="fas fa-user"></i>
+                            </div>
+                            <div class="activity-content">
+                                <h5>Maria Fernanda Oliveira - 09:30</h5>
+                                <p>Retorno - Hipertensão (45 anos)</p>
+                                <span class="activity-time">Em 15 minutos</span>
+                            </div>
+                        </div>
+
+                        <div class="activity-item">
+                            <div class="activity-icon success">
+                                <i class="fas fa-user"></i>
+                            </div>
+                            <div class="activity-content">
+                                <h5>José Carlos Mendes - 10:15</h5>
+                                <p>Primeira consulta - Arritmia (52 anos)</p>
+                                <span class="activity-time">Em 1 hora</span>
+                            </div>
+                        </div>
+
+                        <div class="activity-item">
+                            <div class="activity-icon warning">
+                                <i class="fas fa-video"></i>
+                            </div>
+                            <div class="activity-content">
+                                <h5>Ana Beatriz Santos - 11:00</h5>
+                                <p>Teleconsulta - Acompanhamento (38 anos)</p>
+                                <span class="activity-time">Em 1h 45min</span>
+                            </div>
+                        </div>
+
+                        <div class="activity-item">
+                            <div class="activity-icon primary">
+                                <i class="fas fa-user"></i>
+                            </div>
+                            <div class="activity-content">
+                                <h5>Roberto Almeida - 14:30</h5>
+                                <p>Retorno - Insuficiência Cardíaca (67 anos)</p>
+                                <span class="activity-time">Às 14:30</span>
+                            </div>
+                        </div>
+
+                        <div class="activity-item">
+                            <div class="activity-icon success">
+                                <i class="fas fa-user"></i>
+                            </div>
+                            <div class="activity-content">
+                                <h5>Lucília Pereira - 15:45</h5>
+                                <p>Consulta de rotina (41 anos)</p>
+                                <span class="activity-time">Às 15:45</span>
+                            </div>
+                        </div>
+
+                        <div class="activity-item">
+                            <div class="activity-icon primary">
+                                <i class="fas fa-user"></i>
+                            </div>
+                            <div class="activity-content">
+                                <h5>Carlos Eduardo Lima - 16:30</h5>
+                                <p>Retorno - Angina (59 anos)</p>
+                                <span class="activity-time">Às 16:30</span>
+                            </div>
+                        </div>
+
+                        <div class="activity-item">
+                            <div class="activity-icon warning">
+                                <i class="fas fa-user"></i>
+                            </div>
+                            <div class="activity-content">
+                                <h5>Patrícia Costa - 17:15</h5>
+                                <p>Primeira consulta - Dor no peito (34 anos)</p>
+                                <span class="activity-time">Às 17:15</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <script>
+        function toggleSidebar() {
+            const sidebar = document.getElementById('sidebar');
+            sidebar.classList.toggle('open');
+        }
+
+        function logout() {
+            if (confirm('Tem certeza que deseja sair?')) {
+                window.location.href = 'index.html';
+            }
+        }
+
+        // Close sidebar when clicking outside on mobile
+        document.addEventListener('click', function(event) {
+            const sidebar = document.getElementById('sidebar');
+            const mobileBtn = document.querySelector('.mobile-menu-btn');
+            
+            if (window.innerWidth <= 1024 && 
+                !sidebar.contains(event.target) && 
+                !mobileBtn.contains(event.target)) {
+                sidebar.classList.remove('open');
+            }
+        });
+
+        // Handle window resize
+        window.addEventListener('resize', function() {
+            const sidebar = document.getElementById('sidebar');
+            if (window.innerWidth > 1024) {
+                sidebar.classList.remove('open');
+            }
+        });
+
+        // Add click effects to stat cards
+        document.querySelectorAll('.stat-card').forEach(card => {
+            card.addEventListener('click', function() {
+                this.style.transform = 'scale(0.98)';
+                setTimeout(() => {
+                    this.style.transform = 'translateY(-4px)';
+                }, 150);
+            });
+        });
+
+        // Add hover effects to quick actions
+        document.querySelectorAll('.quick-action').forEach(action => {
+            action.addEventListener('mouseenter', function() {
+                this.style.transform = 'translateY(-4px) scale(1.02)';
+            });
+            
+            action.addEventListener('mouseleave', function() {
+                this.style.transform = 'translateY(0) scale(1)';
+            });
+        });
+
+        // Modal functionality
+        function openModal(modalId) {
+            const modal = document.getElementById(modalId);
+            modal.classList.add('show');
+            document.body.style.overflow = 'hidden'; // Prevent background scrolling
+        }
+
+        function closeModal(modalId) {
+            const modal = document.getElementById(modalId);
+            modal.classList.remove('show');
+            document.body.style.overflow = 'auto'; // Restore scrolling
+        }
+
+        // Close modal when clicking outside
+        document.addEventListener('click', function(event) {
+            if (event.target.classList.contains('modal')) {
+                event.target.classList.remove('show');
+                document.body.style.overflow = 'auto';
+            }
+        });
+
+        // Close modal with Escape key
+        document.addEventListener('keydown', function(event) {
+            if (event.key === 'Escape') {
+                const openModal = document.querySelector('.modal.show');
+                if (openModal) {
+                    openModal.classList.remove('show');
+                    document.body.style.overflow = 'auto';
+                }
+            }
+        });
+
+        // Modal action functions
+        function viewFullSchedule() {
+            closeModal('consultasModal');
+            showToast('Redirecionando para agenda completa...');
+        }
+
+        function viewAllPatients() {
+            closeModal('pacientesModal');
+            showToast('Carregando lista de pacientes...');
+        }
+
+        function viewAllExams() {
+            closeModal('examesModal');
+            showToast('Abrindo lista de exames...');
+        }
+
+        function startTeleconsultation() {
+            closeModal('teleconsultasModal');
+            showToast('Iniciando teleconsulta...');
+        }
+
+        // Toast notification system
+        function showToast(message) {
+            const toast = document.createElement('div');
+            toast.style.cssText = `
+                position: fixed;
+                top: 20px;
+                right: 20px;
+                background: var(--primary-color);
+                color: white;
+                padding: 1rem 1.5rem;
+                border-radius: 12px;
+                box-shadow: var(--shadow-medium);
+                z-index: 10001;
+                animation: slideInRight 0.3s ease;
+                font-weight: 500;
+                max-width: 300px;
+            `;
+            toast.textContent = message;
+            document.body.appendChild(toast);
+
+            setTimeout(() => {
+                toast.style.animation = 'slideOutRight 0.3s ease';
+                setTimeout(() => {
+                    if (document.body.contains(toast)) {
+                        document.body.removeChild(toast);
+                    }
+                }, 300);
+            }, 3000);
+        }
+
+        // Add slide animations for toast
+        const style = document.createElement('style');
+        style.textContent = `
+            @keyframes slideInRight {
+                from {
+                    opacity: 0;
+                    transform: translateX(100%);
+                }
+                to {
+                    opacity: 1;
+                    transform: translateX(0);
+                }
+            }
+
+            @keyframes slideOutRight {
+                from {
+                    opacity: 1;
+                    transform: translateX(0);
+                }
+                to {
+                    opacity: 0;
+                    transform: translateX(100%);
+                }
+            }
+        `;
+        document.head.appendChild(style);
+
+        // Notification click handler
+        document.querySelector('.notification-btn').addEventListener('click', function() {
+            alert('Você tem 4 notificações:\n\n1. Ecocardiograma de Maria Fernanda Oliveira disponível\n2. Paciente José Carlos Mendes reagendou para amanhã\n3. Resultado do Holter 24h de Roberto Almeida pronto\n4. Lembrete: reunião de equipe cardiológica às 17:00');
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,2236 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Painel da Maria Fernanda - VP+ Sistema</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary-color: #06b6d4;
+            --secondary-color: #0891b2;
+            --accent-color: #0e7490;
+            --success-color: #10b981;
+            --warning-color: #f59e0b;
+            --error-color: #ef4444;
+            --dark-bg: #ffffff;
+            --card-bg: #f8fafc;
+            --text-primary: #1e293b;
+            --text-secondary: #64748b;
+            --border-color: #e2e8f0;
+            --glass-bg: rgba(248, 250, 252, 0.8);
+            --shadow-soft: 0 4px 6px -1px rgba(6, 182, 212, 0.1);
+            --shadow-medium: 0 10px 15px -3px rgba(6, 182, 212, 0.1);
+            --shadow-large: 0 25px 50px -12px rgba(6, 182, 212, 0.15);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: linear-gradient(135deg, var(--dark-bg) 0%, #f8fafc 50%, #e2e8f0 100%);
+            min-height: 100vh;
+            color: var(--text-primary);
+            overflow-x: hidden;
+        }
+
+        .dashboard-container {
+            display: flex;
+            min-height: 100vh;
+        }
+
+        /* Sidebar */
+        .sidebar {
+            width: 320px;
+            background: rgba(255, 255, 255, 0.9);
+            backdrop-filter: blur(20px);
+            border-right: 1px solid var(--border-color);
+            padding: 2rem 0;
+            position: fixed;
+            height: 100vh;
+            overflow-y: auto;
+            z-index: 1000;
+        }
+
+        .sidebar-header {
+            padding: 0 2rem 2rem;
+            border-bottom: 1px solid var(--border-color);
+            margin-bottom: 2rem;
+        }
+
+        .logo-brand {
+            font-weight: 800;
+            font-size: 1.8rem;
+            background: linear-gradient(135deg, var(--primary-color), var(--accent-color));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 1.5rem;
+        }
+
+        .user-profile {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            padding: 1.5rem;
+            background: rgba(6, 182, 212, 0.05);
+            border-radius: 16px;
+            border: 1px solid rgba(6, 182, 212, 0.1);
+        }
+
+        .user-avatar {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--primary-color), var(--accent-color));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: 700;
+            font-size: 1.5rem;
+            position: relative;
+        }
+
+        .user-avatar::after {
+            content: '';
+            position: absolute;
+            bottom: 2px;
+            right: 2px;
+            width: 16px;
+            height: 16px;
+            background: var(--success-color);
+            border: 2px solid white;
+            border-radius: 50%;
+        }
+
+        .user-details h4 {
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: var(--text-primary);
+            margin-bottom: 0.3rem;
+        }
+
+        .user-details p {
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+            margin-bottom: 0.3rem;
+        }
+
+        .user-status {
+            background: rgba(16, 185, 129, 0.1);
+            color: var(--success-color);
+            padding: 0.2rem 0.6rem;
+            border-radius: 12px;
+            font-size: 0.8rem;
+            font-weight: 500;
+        }
+
+        .sidebar-nav {
+            padding: 0 1rem;
+        }
+
+        .nav-section {
+            margin-bottom: 2rem;
+        }
+
+        .nav-section h5 {
+            font-size: 0.8rem;
+            font-weight: 600;
+            color: var(--text-secondary);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-bottom: 1rem;
+            padding: 0 1rem;
+        }
+
+        .nav-item {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            padding: 0.8rem 1rem;
+            margin-bottom: 0.5rem;
+            border-radius: 12px;
+            color: var(--text-secondary);
+            text-decoration: none;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+
+        .nav-item:hover {
+            background: rgba(6, 182, 212, 0.1);
+            color: var(--primary-color);
+            transform: translateX(4px);
+        }
+
+        .nav-item.active {
+            background: linear-gradient(135deg, var(--primary-color), var(--accent-color));
+            color: white;
+            box-shadow: var(--shadow-medium);
+        }
+
+        .nav-item i {
+            width: 20px;
+            text-align: center;
+        }
+
+        .user-profile {
+            display: flex;
+            align-items: center;
+            gap: 0.8rem;
+            padding: 1rem;
+            background: rgba(6, 182, 212, 0.05);
+            border-radius: 12px;
+            border: 1px solid rgba(6, 182, 212, 0.1);
+        }
+
+        .user-avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--primary-color), var(--accent-color));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: 700;
+            font-size: 1rem;
+            position: relative;
+        }
+
+        .user-avatar::after {
+            content: '';
+            position: absolute;
+            bottom: 1px;
+            right: 1px;
+            width: 12px;
+            height: 12px;
+            background: var(--success-color);
+            border: 2px solid white;
+            border-radius: 50%;
+        }
+
+        .user-details h4 {
+            font-size: 0.9rem;
+            font-weight: 600;
+            color: var(--text-primary);
+            margin-bottom: 0.2rem;
+        }
+
+        .user-details p {
+            font-size: 0.8rem;
+            color: var(--text-secondary);
+            margin-bottom: 0.2rem;
+        }
+
+        .user-status {
+            background: rgba(16, 185, 129, 0.1);
+            color: var(--success-color);
+            padding: 0.1rem 0.4rem;
+            border-radius: 8px;
+            font-size: 0.7rem;
+            font-weight: 500;
+        }
+
+        .sidebar-nav {
+            padding: 0 1rem;
+        }
+
+        .nav-section {
+            margin-bottom: 1.5rem;
+        }
+
+        .nav-section h5 {
+            font-size: 0.75rem;
+            font-weight: 600;
+            color: var(--text-secondary);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-bottom: 0.8rem;
+            padding: 0 0.5rem;
+        }
+
+        .nav-card {
+            background: rgba(255, 255, 255, 0.8);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            padding: 1rem;
+            margin-bottom: 0.8rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .nav-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 3px;
+            background: linear-gradient(90deg, var(--primary-color), var(--accent-color));
+        }
+
+        .nav-card:hover {
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-medium);
+            border-color: var(--primary-color);
+        }
+
+        .nav-card.active {
+            background: rgba(6, 182, 212, 0.1);
+            border-color: var(--primary-color);
+            box-shadow: var(--shadow-soft);
+        }
+
+        .nav-card-header {
+            display: flex;
+            align-items: center;
+            gap: 0.8rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .nav-card-icon {
+            width: 32px;
+            height: 32px;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 0.9rem;
+        }
+
+        .nav-card-icon.primary {
+            background: linear-gradient(135deg, var(--primary-color), var(--accent-color));
+        }
+
+        .nav-card-icon.success {
+            background: linear-gradient(135deg, var(--success-color), #059669);
+        }
+
+        .nav-card-icon.warning {
+            background: linear-gradient(135deg, var(--warning-color), #d97706);
+        }
+
+        .nav-card-icon.error {
+            background: linear-gradient(135deg, var(--error-color), #dc2626);
+        }
+
+        .nav-card-title {
+            font-size: 0.9rem;
+            font-weight: 600;
+            color: var(--text-primary);
+        }
+
+        .nav-card-description {
+            font-size: 0.75rem;
+            color: var(--text-secondary);
+            margin-bottom: 0.5rem;
+        }
+
+        .nav-card-value {
+            font-size: 1.2rem;
+            font-weight: 700;
+            color: var(--text-primary);
+            margin-bottom: 0.3rem;
+        }
+
+        .nav-card-change {
+            font-size: 0.7rem;
+            display: flex;
+            align-items: center;
+            gap: 0.3rem;
+        }
+
+        .nav-card-change.positive {
+            color: var(--success-color);
+        }
+
+        .nav-card-change.negative {
+            color: var(--error-color);
+        }
+
+        .logout-btn {
+            margin: 1rem 1rem 0;
+            background: linear-gradient(135deg, var(--error-color), #dc2626);
+            color: white;
+            border: none;
+            border-radius: 12px;
+            padding: 0.8rem 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+            width: calc(100% - 2rem);
+            font-size: 0.9rem;
+        }
+
+        .logout-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-medium);
+        }
+
+        /* Main Content */
+        .main-content {
+            flex: 1;
+            margin-left: 320px;
+            padding: 2rem;
+        }
+
+        /* Patient Info Cards */
+        .patient-info-cards {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+
+        .patient-card {
+            background: rgba(255, 255, 255, 0.9);
+            backdrop-filter: blur(20px);
+            border: 1px solid var(--border-color);
+            border-radius: 16px;
+            padding: 1.5rem;
+            box-shadow: var(--shadow-soft);
+            transition: all 0.3s ease;
+        }
+
+        .patient-card:hover {
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-medium);
+        }
+
+        .patient-card-header {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            margin-bottom: 1rem;
+            padding-bottom: 1rem;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .patient-card-icon {
+            width: 40px;
+            height: 40px;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 1.2rem;
+        }
+
+        .patient-card-icon.primary {
+            background: linear-gradient(135deg, var(--primary-color), var(--accent-color));
+        }
+
+        .patient-card-icon.success {
+            background: linear-gradient(135deg, var(--success-color), #059669);
+        }
+
+        .patient-card-icon.warning {
+            background: linear-gradient(135deg, var(--warning-color), #d97706);
+        }
+
+        .patient-card-icon.info {
+            background: linear-gradient(135deg, #3b82f6, #1d4ed8);
+        }
+
+        .patient-card-title {
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: var(--text-primary);
+        }
+
+        .patient-card-content {
+            display: flex;
+            flex-direction: column;
+            gap: 0.8rem;
+        }
+
+        .patient-info-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0.5rem 0;
+            border-bottom: 1px solid rgba(226, 232, 240, 0.3);
+        }
+
+        .patient-info-item:last-child {
+            border-bottom: none;
+        }
+
+        .patient-info-label {
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+            font-weight: 500;
+        }
+
+        .patient-info-value {
+            color: var(--text-primary);
+            font-size: 0.9rem;
+            font-weight: 600;
+        }
+
+        .patient-history-item {
+            display: flex;
+            align-items: center;
+            gap: 0.8rem;
+            padding: 0.8rem 0;
+            border-bottom: 1px solid rgba(226, 232, 240, 0.3);
+        }
+
+        .patient-history-item:last-child {
+            border-bottom: none;
+        }
+
+        .patient-history-icon {
+            width: 32px;
+            height: 32px;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 0.9rem;
+        }
+
+        .patient-history-content h5 {
+            font-size: 0.9rem;
+            font-weight: 600;
+            color: var(--text-primary);
+            margin-bottom: 0.2rem;
+        }
+
+        .patient-history-content p {
+            font-size: 0.8rem;
+            color: var(--text-secondary);
+            margin-bottom: 0.2rem;
+        }
+
+        .patient-history-time {
+            font-size: 0.75rem;
+            color: var(--text-secondary);
+        }
+
+        .profile-header {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+            padding-bottom: 1rem;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .profile-avatar {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--primary-color), var(--accent-color));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: 700;
+            font-size: 1.5rem;
+            position: relative;
+            box-shadow: var(--shadow-medium);
+        }
+
+        .profile-avatar::after {
+            content: '';
+            position: absolute;
+            bottom: 2px;
+            right: 2px;
+            width: 16px;
+            height: 16px;
+            background: var(--success-color);
+            border: 2px solid white;
+            border-radius: 50%;
+        }
+
+        .profile-info h1 {
+            font-size: 1.2rem;
+            font-weight: 700;
+            color: var(--text-primary);
+            margin-bottom: 0.3rem;
+        }
+
+        .profile-info .patient-role {
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+            margin-bottom: 0.5rem;
+        }
+
+        .profile-status {
+            background: rgba(16, 185, 129, 0.1);
+            color: var(--success-color);
+            padding: 0.2rem 0.6rem;
+            border-radius: 12px;
+            font-size: 0.8rem;
+            font-weight: 500;
+        }
+
+        .profile-details {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+
+        .detail-section {
+            background: rgba(255, 255, 255, 0.8);
+            border-radius: 12px;
+            padding: 1rem;
+            border: 1px solid var(--border-color);
+        }
+
+        .detail-section h3 {
+            font-size: 0.9rem;
+            font-weight: 600;
+            color: var(--text-primary);
+            margin-bottom: 0.8rem;
+            display: flex;
+            align-items: center;
+            gap: 0.4rem;
+        }
+
+        .detail-section h3 i {
+            color: var(--primary-color);
+            font-size: 0.8rem;
+        }
+
+        .detail-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0.5rem 0;
+            border-bottom: 1px solid rgba(226, 232, 240, 0.5);
+        }
+
+        .detail-item:last-child {
+            border-bottom: none;
+        }
+
+        .detail-label {
+            color: var(--text-secondary);
+            font-size: 0.8rem;
+            font-weight: 500;
+        }
+
+        .detail-value {
+            color: var(--text-primary);
+            font-size: 0.8rem;
+            font-weight: 600;
+        }
+
+        .medical-info {
+            background: rgba(239, 68, 68, 0.05);
+            border: 1px solid rgba(239, 68, 68, 0.1);
+            border-radius: 8px;
+            padding: 0.8rem;
+            margin-top: 0.8rem;
+        }
+
+        .medical-info h4 {
+            color: var(--error-color);
+            font-size: 0.8rem;
+            font-weight: 600;
+            margin-bottom: 0.3rem;
+        }
+
+        .medical-info p {
+            color: var(--text-secondary);
+            font-size: 0.75rem;
+        }
+
+        .top-bar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 2rem;
+            padding: 1rem 0;
+        }
+
+        .page-title {
+            font-size: 2rem;
+            font-weight: 700;
+            color: var(--text-primary);
+        }
+
+        .page-subtitle {
+            color: var(--text-secondary);
+            margin-top: 0.5rem;
+        }
+
+        .top-actions {
+            display: flex;
+            gap: 1rem;
+            align-items: center;
+        }
+
+        .notification-btn {
+            position: relative;
+            background: rgba(255, 255, 255, 0.9);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            padding: 0.8rem;
+            color: var(--text-secondary);
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .notification-btn:hover {
+            background: rgba(6, 182, 212, 0.1);
+            color: var(--primary-color);
+        }
+
+        .notification-badge {
+            position: absolute;
+            top: -4px;
+            right: -4px;
+            background: var(--error-color);
+            color: white;
+            border-radius: 50%;
+            width: 20px;
+            height: 20px;
+            font-size: 0.7rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 600;
+        }
+
+        .logout-btn {
+            background: linear-gradient(135deg, var(--error-color), #dc2626);
+            color: white;
+            border: none;
+            border-radius: 12px;
+            padding: 0.8rem 1.5rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .logout-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-medium);
+        }
+
+        /* Stats Grid */
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+
+        .stat-card {
+            background: rgba(255, 255, 255, 0.9);
+            backdrop-filter: blur(20px);
+            border: 1px solid var(--border-color);
+            border-radius: 16px;
+            padding: 1.5rem;
+            box-shadow: var(--shadow-soft);
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+            cursor: pointer;
+        }
+
+        .stat-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 3px;
+            background: linear-gradient(90deg, var(--primary-color), var(--accent-color));
+        }
+
+        .stat-card:hover {
+            transform: translateY(-4px);
+            box-shadow: var(--shadow-medium);
+        }
+
+        .stat-card:active {
+            transform: scale(0.98);
+        }
+
+        .stat-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1rem;
+        }
+
+        .stat-title {
+            font-size: 0.9rem;
+            font-weight: 600;
+            color: var(--text-secondary);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .stat-icon {
+            width: 40px;
+            height: 40px;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 1.2rem;
+        }
+
+        .stat-icon.primary {
+            background: linear-gradient(135deg, var(--primary-color), var(--accent-color));
+        }
+
+        .stat-icon.success {
+            background: linear-gradient(135deg, var(--success-color), #059669);
+        }
+
+        .stat-icon.warning {
+            background: linear-gradient(135deg, var(--warning-color), #d97706);
+        }
+
+        .stat-value {
+            font-size: 2rem;
+            font-weight: 700;
+            color: var(--text-primary);
+            margin-bottom: 0.5rem;
+        }
+
+        .stat-change {
+            font-size: 0.8rem;
+            display: flex;
+            align-items: center;
+            gap: 0.3rem;
+        }
+
+        .stat-change.positive {
+            color: var(--success-color);
+        }
+
+        .stat-change.negative {
+            color: var(--error-color);
+        }
+
+        /* Content Grid */
+        .content-grid {
+            display: grid;
+            grid-template-columns: 2fr 1fr;
+            gap: 2rem;
+        }
+
+        .content-card {
+            background: rgba(255, 255, 255, 0.9);
+            backdrop-filter: blur(20px);
+            border: 1px solid var(--border-color);
+            border-radius: 16px;
+            padding: 1.5rem;
+            box-shadow: var(--shadow-soft);
+        }
+
+        .card-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1.5rem;
+            padding-bottom: 1rem;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .card-title {
+            font-size: 1.2rem;
+            font-weight: 600;
+            color: var(--text-primary);
+        }
+
+        .card-action {
+            color: var(--primary-color);
+            text-decoration: none;
+            font-size: 0.9rem;
+            font-weight: 500;
+            transition: all 0.3s ease;
+        }
+
+        .card-action:hover {
+            color: var(--accent-color);
+        }
+
+        /* Quick Actions */
+        .quick-actions {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 1rem;
+        }
+
+        .quick-action {
+            background: rgba(6, 182, 212, 0.05);
+            border: 1px solid rgba(6, 182, 212, 0.1);
+            border-radius: 12px;
+            padding: 1.5rem;
+            text-align: center;
+            text-decoration: none;
+            color: var(--text-primary);
+            transition: all 0.3s ease;
+        }
+
+        .quick-action:hover {
+            background: rgba(6, 182, 212, 0.1);
+            border-color: var(--primary-color);
+            transform: translateY(-2px);
+        }
+
+        .quick-action i {
+            font-size: 2rem;
+            color: var(--primary-color);
+            margin-bottom: 1rem;
+        }
+
+        .quick-action h4 {
+            font-size: 1rem;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+        }
+
+        .quick-action p {
+            font-size: 0.8rem;
+            color: var(--text-secondary);
+        }
+
+        /* Activity Feed */
+        .activity-item {
+            display: flex;
+            gap: 1rem;
+            padding: 1rem 0;
+            border-bottom: 1px solid rgba(226, 232, 240, 0.5);
+        }
+
+        .activity-item:last-child {
+            border-bottom: none;
+        }
+
+        .activity-icon {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 0.9rem;
+            flex-shrink: 0;
+        }
+
+        .activity-icon.primary {
+            background: linear-gradient(135deg, var(--primary-color), var(--accent-color));
+        }
+
+        .activity-icon.success {
+            background: linear-gradient(135deg, var(--success-color), #059669);
+        }
+
+        .activity-icon.warning {
+            background: linear-gradient(135deg, var(--warning-color), #d97706);
+        }
+
+        .activity-content h5 {
+            font-size: 0.9rem;
+            font-weight: 600;
+            color: var(--text-primary);
+            margin-bottom: 0.3rem;
+        }
+
+        .activity-content p {
+            font-size: 0.8rem;
+            color: var(--text-secondary);
+            margin-bottom: 0.3rem;
+        }
+
+        .activity-time {
+            font-size: 0.7rem;
+            color: var(--text-secondary);
+        }
+
+        /* Responsive */
+        @media (max-width: 1200px) {
+            .sidebar {
+                width: 280px;
+            }
+
+            .main-content {
+                margin-left: 280px;
+            }
+
+            .stats-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .content-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .patient-info-cards {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        @media (max-width: 1024px) {
+            .sidebar {
+                transform: translateX(-100%);
+                transition: transform 0.3s ease;
+                width: 320px;
+            }
+
+            .sidebar.open {
+                transform: translateX(0);
+            }
+
+            .main-content {
+                margin-left: 0;
+            }
+
+            .stats-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .content-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .patient-info-cards {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .modal-content {
+                width: 90%;
+                max-width: 800px;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .main-content {
+                padding: 1rem;
+            }
+
+            .stats-grid {
+                grid-template-columns: 1fr;
+                gap: 1rem;
+            }
+
+            .top-bar {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 1rem;
+                padding: 1rem;
+            }
+
+            .top-actions {
+                width: 100%;
+                justify-content: space-between;
+            }
+
+            .quick-actions {
+                grid-template-columns: 1fr;
+            }
+
+            .patient-info-cards {
+                grid-template-columns: 1fr;
+                gap: 1rem;
+            }
+
+            .breadcrumb {
+                font-size: 0.9rem;
+            }
+
+            .modal-content {
+                width: 95%;
+                max-width: 600px;
+                margin: 1rem;
+            }
+
+            .modal-header {
+                padding: 1rem;
+            }
+
+            .modal-body {
+                padding: 1rem;
+            }
+
+            .info-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .main-content {
+                padding: 0.5rem;
+            }
+
+            .stats-grid {
+                gap: 0.8rem;
+            }
+
+            .stat-card {
+                padding: 1rem;
+            }
+
+            .stat-title {
+                font-size: 0.9rem;
+            }
+
+            .stat-value {
+                font-size: 1.5rem;
+            }
+
+            .top-bar {
+                padding: 0.8rem;
+            }
+
+            .breadcrumb {
+                font-size: 0.8rem;
+            }
+
+            .patient-info-cards {
+                gap: 0.8rem;
+            }
+
+            .patient-card {
+                padding: 1rem;
+            }
+
+            .patient-card-title {
+                font-size: 1rem;
+            }
+
+            .patient-info-item {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 0.3rem;
+            }
+
+            .patient-info-label {
+                font-size: 0.8rem;
+            }
+
+            .patient-info-value {
+                font-size: 0.8rem;
+            }
+
+            .modal-content {
+                width: 98%;
+                margin: 0.5rem;
+            }
+
+            .modal-header {
+                padding: 0.8rem;
+            }
+
+            .modal-body {
+                padding: 0.8rem;
+            }
+
+            .modal-title {
+                font-size: 1.1rem;
+            }
+
+            .modal-list li {
+                padding: 0.6rem 0;
+                font-size: 0.9rem;
+            }
+
+            .quick-actions {
+                gap: 0.8rem;
+            }
+
+            .quick-action-btn {
+                padding: 0.8rem;
+                font-size: 0.9rem;
+            }
+        }
+
+        /* Mobile Menu Toggle */
+        .mobile-menu-btn {
+            display: none;
+            background: rgba(255, 255, 255, 0.9);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            padding: 0.8rem;
+            color: var(--text-secondary);
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        @media (max-width: 1024px) {
+            .mobile-menu-btn {
+                display: block;
+            }
+        }
+
+        .mobile-menu-btn:hover {
+            background: rgba(6, 182, 212, 0.1);
+            color: var(--primary-color);
+        }
+
+        /* Modal Styles */
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            backdrop-filter: blur(5px);
+        }
+
+        .modal-content {
+            background: var(--card-bg);
+            margin: 5% auto;
+            padding: 0;
+            border-radius: 20px;
+            width: 90%;
+            max-width: 800px;
+            max-height: 80vh;
+            overflow-y: auto;
+            box-shadow: var(--shadow-large);
+            animation: fadeIn 0.3s ease;
+        }
+
+        .modal-header {
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            color: white;
+            padding: 1.5rem;
+            border-radius: 20px 20px 0 0;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .modal-title {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            font-size: 1.25rem;
+            font-weight: 600;
+        }
+
+        .modal-icon {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.2rem;
+        }
+
+        .modal-icon.primary { background: rgba(255, 255, 255, 0.2); }
+        .modal-icon.success { background: rgba(16, 185, 129, 0.3); }
+        .modal-icon.warning { background: rgba(245, 158, 11, 0.3); }
+        .modal-icon.error { background: rgba(239, 68, 68, 0.3); }
+
+        .close-btn {
+            background: none;
+            border: none;
+            color: white;
+            font-size: 1.5rem;
+            cursor: pointer;
+            padding: 0.5rem;
+            border-radius: 50%;
+            transition: background-color 0.3s ease;
+        }
+
+        .close-btn:hover {
+            background: rgba(255, 255, 255, 0.2);
+        }
+
+        .modal-body {
+            padding: 2rem;
+        }
+
+        .modal-section {
+            margin-bottom: 2rem;
+        }
+
+        .modal-section:last-child {
+            margin-bottom: 0;
+        }
+
+        .modal-section h4 {
+            color: var(--text-primary);
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-size: 1.1rem;
+        }
+
+        .modal-list {
+            list-style: none;
+            padding: 0;
+        }
+
+        .modal-list li {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem;
+            background: rgba(255, 255, 255, 0.5);
+            border-radius: 12px;
+            margin-bottom: 0.75rem;
+            border-left: 4px solid var(--primary-color);
+            transition: all 0.3s ease;
+        }
+
+        .modal-list li:hover {
+            background: rgba(255, 255, 255, 0.8);
+            transform: translateX(5px);
+        }
+
+        .modal-list li:last-child {
+            margin-bottom: 0;
+        }
+
+        .modal-list li span:first-child {
+            font-weight: 500;
+            color: var(--text-primary);
+        }
+
+        .modal-list li span:last-child {
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+        }
+
+        .info-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 1rem;
+        }
+
+        .info-item {
+            background: rgba(255, 255, 255, 0.5);
+            padding: 1rem;
+            border-radius: 12px;
+            text-align: center;
+            border: 1px solid var(--border-color);
+        }
+
+        .info-item h5 {
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .info-item p {
+            color: var(--text-primary);
+            font-size: 1.5rem;
+            font-weight: 600;
+        }
+
+        .modal-footer {
+            padding: 1.5rem;
+            background: rgba(248, 250, 252, 0.8);
+            border-radius: 0 0 20px 20px;
+            display: flex;
+            justify-content: flex-end;
+            gap: 1rem;
+        }
+
+        .modal-btn {
+            padding: 0.75rem 1.5rem;
+            border: none;
+            border-radius: 8px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .modal-btn.primary {
+            background: var(--primary-color);
+            color: white;
+        }
+
+        .modal-btn.primary:hover {
+            background: var(--secondary-color);
+            transform: translateY(-2px);
+        }
+
+        .modal-btn.secondary {
+            background: var(--text-secondary);
+            color: white;
+        }
+
+        .modal-btn.secondary:hover {
+            background: var(--text-primary);
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: scale(0.9); }
+            to { opacity: 1; transform: scale(1); }
+        }
+    </style>
+</head>
+<body>
+    <div class="dashboard-container">
+        <!-- Sidebar -->
+        <aside class="sidebar" id="sidebar">
+            <div class="sidebar-header">
+                <div class="logo-brand">VP+</div>
+                <div class="user-profile">
+                    <div class="user-avatar">MF</div>
+                    <div class="user-details">
+                        <h4>Maria Fernanda</h4>
+                        <p>Paciente</p>
+                        <span class="user-status">Online</span>
+                    </div>
+                </div>
+            </div>
+
+            <nav class="sidebar-nav">
+                <div class="nav-section">
+                    <h5>Principal</h5>
+                    <a href="#" class="nav-item active">
+                        <i class="fas fa-tachometer-alt"></i>
+                        Dashboard
+                    </a>
+                    <a href="#" class="nav-item" onclick="openModal('consultasModal')">
+                        <i class="fas fa-calendar-check"></i>
+                        Consultas
+                    </a>
+                    <a href="#" class="nav-item" onclick="openModal('examesModal')">
+                        <i class="fas fa-vial"></i>
+                        Exames
+                    </a>
+                </div>
+
+                <div class="nav-section">
+                    <h5>Saúde</h5>
+                    <a href="#" class="nav-item" onclick="openModal('medicamentosModal')">
+                        <i class="fas fa-pills"></i>
+                        Medicamentos
+                    </a>
+                    <a href="#" class="nav-item">
+                        <i class="fas fa-file-medical"></i>
+                        Prescrições
+                    </a>
+                    <a href="#" class="nav-item">
+                        <i class="fas fa-video"></i>
+                        Teleconsulta
+                    </a>
+                </div>
+
+                <div class="nav-section">
+                    <h5>Documentos</h5>
+                    <a href="#" class="nav-item">
+                        <i class="fas fa-file-alt"></i>
+                        Documentos
+                    </a>
+                    <a href="#" class="nav-item">
+                        <i class="fas fa-history"></i>
+                        Histórico
+                    </a>
+                </div>
+
+                <div class="nav-section">
+                    <h5>Sistema</h5>
+                    <a href="#" class="nav-item">
+                        <i class="fas fa-cog"></i>
+                        Configurações
+                    </a>
+                    <a href="#" class="nav-item">
+                        <i class="fas fa-question-circle"></i>
+                        Ajuda
+                    </a>
+                </div>
+            </nav>
+
+            <button class="logout-btn" onclick="logout()">
+                <i class="fas fa-sign-out-alt"></i>
+                Sair
+            </button>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <div class="top-bar">
+                <div>
+                    <button class="mobile-menu-btn" onclick="toggleSidebar()">
+                        <i class="fas fa-bars"></i>
+                    </button>
+                    <h1 class="page-title">Ficha Técnica do Paciente</h1>
+                    <p class="page-subtitle">Informações completas e acompanhamento médico</p>
+                </div>
+                <div class="top-actions">
+                    <button class="notification-btn">
+                        <i class="fas fa-bell"></i>
+                        <span class="notification-badge">3</span>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Patient Information Cards -->
+            <div class="patient-info-cards">
+                <div class="patient-card">
+                    <div class="patient-card-header">
+                        <div class="patient-card-icon primary">
+                            <i class="fas fa-user"></i>
+                        </div>
+                        <div class="patient-card-title">Informações Pessoais</div>
+                    </div>
+                    <div class="patient-card-content">
+                        <div class="patient-info-item">
+                            <span class="patient-info-label">Nome Completo:</span>
+                            <span class="patient-info-value">Maria Fernanda Oliveira</span>
+                        </div>
+                        <div class="patient-info-item">
+                            <span class="patient-info-label">CPF:</span>
+                            <span class="patient-info-value">123.456.789-01</span>
+                        </div>
+                        <div class="patient-info-item">
+                            <span class="patient-info-label">Data de Nascimento:</span>
+                            <span class="patient-info-value">22/07/1979</span>
+                        </div>
+                        <div class="patient-info-item">
+                            <span class="patient-info-label">Idade:</span>
+                            <span class="patient-info-value">45 anos</span>
+                        </div>
+                        <div class="patient-info-item">
+                            <span class="patient-info-label">Tipo Sanguíneo:</span>
+                            <span class="patient-info-value">A+</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="patient-card">
+                    <div class="patient-card-header">
+                        <div class="patient-card-icon success">
+                            <i class="fas fa-heartbeat"></i>
+                        </div>
+                        <div class="patient-card-title">Dados Médicos</div>
+                    </div>
+                    <div class="patient-card-content">
+                        <div class="patient-info-item">
+                            <span class="patient-info-label">Convênio:</span>
+                            <span class="patient-info-value">Unimed</span>
+                        </div>
+                        <div class="patient-info-item">
+                            <span class="patient-info-label">Nº Carteirinha:</span>
+                            <span class="patient-info-value">123456789</span>
+                        </div>
+                        <div class="patient-info-item">
+                            <span class="patient-info-label">Médico Responsável:</span>
+                            <span class="patient-info-value">Dr. Carlos Silva</span>
+                        </div>
+                        <div class="patient-info-item">
+                            <span class="patient-info-label">Especialidade:</span>
+                            <span class="patient-info-value">Cardiologia</span>
+                        </div>
+                        <div class="patient-info-item">
+                            <span class="patient-info-label">Última Consulta:</span>
+                            <span class="patient-info-value">05/05/2025</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="patient-card">
+                    <div class="patient-card-header">
+                        <div class="patient-card-icon warning">
+                            <i class="fas fa-pills"></i>
+                        </div>
+                        <div class="patient-card-title">Medicamentos Ativos</div>
+                    </div>
+                    <div class="patient-card-content">
+                        <div class="patient-info-item">
+                            <span class="patient-info-label">Losartana 50mg:</span>
+                            <span class="patient-info-value">1x/dia - 08:00</span>
+                        </div>
+                        <div class="patient-info-item">
+                            <span class="patient-info-label">Atenolol 25mg:</span>
+                            <span class="patient-info-value">1x/dia - 08:00</span>
+                        </div>
+                        <div class="patient-info-item">
+                            <span class="patient-info-label">Sinvastatina 20mg:</span>
+                            <span class="patient-info-value">1x/dia - 20:00</span>
+                        </div>
+                        <div class="patient-info-item">
+                            <span class="patient-info-label">Adesão:</span>
+                            <span class="patient-info-value">95%</span>
+                        </div>
+                        <div class="patient-info-item">
+                            <span class="patient-info-label">Alergias:</span>
+                            <span class="patient-info-value">Nenhuma</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="patient-card">
+                    <div class="patient-card-header">
+                        <div class="patient-card-icon info">
+                            <i class="fas fa-history"></i>
+                        </div>
+                        <div class="patient-card-title">Histórico Recente</div>
+                    </div>
+                    <div class="patient-card-content">
+                        <div class="patient-history-item">
+                            <div class="patient-history-icon primary">
+                                <i class="fas fa-calendar-check"></i>
+                            </div>
+                            <div class="patient-history-content">
+                                <h5>Consulta Confirmada</h5>
+                                <p>Dr. Carlos Silva - Cardiologia</p>
+                                <span class="patient-history-time">Há 2 horas</span>
+                            </div>
+                        </div>
+                        <div class="patient-history-item">
+                            <div class="patient-history-icon success">
+                                <i class="fas fa-check-circle"></i>
+                            </div>
+                            <div class="patient-history-content">
+                                <h5>Exame Liberado</h5>
+                                <p>Hemograma completo</p>
+                                <span class="patient-history-time">Há 1 dia</span>
+                            </div>
+                        </div>
+                        <div class="patient-history-item">
+                            <div class="patient-history-icon warning">
+                                <i class="fas fa-pills"></i>
+                            </div>
+                            <div class="patient-history-content">
+                                <h5>Lembrete Medicamento</h5>
+                                <p>Losartana 50mg</p>
+                                <span class="patient-history-time">Há 2 dias</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Navigation Cards Grid -->
+            <div class="stats-grid">
+                <div class="stat-card" onclick="openModal('consultasModal')">
+                    <div class="stat-header">
+                        <span class="stat-title">Consultas Agendadas</span>
+                        <div class="stat-icon primary">
+                            <i class="fas fa-calendar-check"></i>
+                        </div>
+                    </div>
+                    <div class="stat-value">2</div>
+                    <div class="stat-change positive">
+                        <i class="fas fa-arrow-up"></i>
+                        +1 esta semana
+                    </div>
+                </div>
+
+                <div class="stat-card" onclick="openModal('examesModal')">
+                    <div class="stat-header">
+                        <span class="stat-title">Exames Pendentes</span>
+                        <div class="stat-icon warning">
+                            <i class="fas fa-vial"></i>
+                        </div>
+                    </div>
+                    <div class="stat-value">1</div>
+                    <div class="stat-change negative">
+                        <i class="fas fa-clock"></i>
+                        Agendado para 20/12
+                    </div>
+                </div>
+
+                <div class="stat-card" onclick="openModal('medicamentosModal')">
+                    <div class="stat-header">
+                        <span class="stat-title">Medicamentos</span>
+                        <div class="stat-icon success">
+                            <i class="fas fa-pills"></i>
+                        </div>
+                    </div>
+                    <div class="stat-value">3</div>
+                    <div class="stat-change positive">
+                        <i class="fas fa-check"></i>
+                        Em dia
+                    </div>
+                </div>
+
+                <div class="stat-card" onclick="openModal('notificacoesModal')">
+                    <div class="stat-header">
+                        <span class="stat-title">Notificações</span>
+                        <div class="stat-icon primary">
+                            <i class="fas fa-bell"></i>
+                        </div>
+                    </div>
+                    <div class="stat-value">3</div>
+                    <div class="stat-change positive">
+                        <i class="fas fa-eye"></i>
+                        Não lidas
+                    </div>
+                </div>
+            </div>
+
+            <!-- Quick Actions Grid -->
+            <div class="content-grid">
+                <div class="content-card">
+                    <div class="card-header">
+                        <h3 class="card-title">Ações Rápidas</h3>
+                        <a href="#" class="card-action">Ver todas</a>
+                    </div>
+                    <div class="quick-actions">
+                        <a href="#" class="quick-action" onclick="agendarConsulta()">
+                            <i class="fas fa-calendar-plus"></i>
+                            <h4>Agendar Consulta</h4>
+                            <p>Agende uma nova consulta</p>
+                        </a>
+                        <a href="#" class="quick-action" onclick="agendarExame()">
+                            <i class="fas fa-microscope"></i>
+                            <h4>Agendar Exame</h4>
+                            <p>Agende um novo exame</p>
+                        </a>
+                        <a href="#" class="quick-action" onclick="configurarLembretes()">
+                            <i class="fas fa-clock"></i>
+                            <h4>Lembretes</h4>
+                            <p>Configurar alertas</p>
+                        </a>
+                        <a href="#" class="quick-action" onclick="openModal('medicamentosModal')">
+                            <i class="fas fa-pills"></i>
+                            <h4>Medicamentos</h4>
+                            <p>Controle seus remédios</p>
+                        </a>
+                    </div>
+                </div>
+
+                <div class="content-card">
+                    <div class="card-header">
+                        <h3 class="card-title">Atividade Recente</h3>
+                        <a href="#" class="card-action">Ver todas</a>
+                    </div>
+                    <div class="activity-feed">
+                        <div class="activity-item">
+                            <div class="activity-icon primary">
+                                <i class="fas fa-calendar-check"></i>
+                            </div>
+                            <div class="activity-content">
+                                <h5>Consulta confirmada</h5>
+                                <p>Dr. Carlos Silva - 12/06 às 09:00 - Cardiologia</p>
+                                <span class="activity-time">Há 2 horas</span>
+                            </div>
+                        </div>
+
+                        <div class="activity-item">
+                            <div class="activity-icon success">
+                                <i class="fas fa-check-circle"></i>
+                            </div>
+                            <div class="activity-content">
+                                <h5>Resultado disponível</h5>
+                                <p>Hemograma completo liberado - Valores normais</p>
+                                <span class="activity-time">Há 1 dia</span>
+                            </div>
+                        </div>
+
+                        <div class="activity-item">
+                            <div class="activity-icon warning">
+                                <i class="fas fa-pills"></i>
+                            </div>
+                            <div class="activity-content">
+                                <h5>Lembrete de medicamento</h5>
+                                <p>Losartana 50mg - 08:00 - Próximo em 2h</p>
+                                <span class="activity-time">Há 2 dias</span>
+                            </div>
+                        </div>
+
+                        <div class="activity-item">
+                            <div class="activity-icon primary">
+                                <i class="fas fa-video"></i>
+                            </div>
+                            <div class="activity-content">
+                                <h5>Teleconsulta agendada</h5>
+                                <p>Dra. Ana Costa - 20/12/2025 às 14:30</p>
+                                <span class="activity-time">Há 3 dias</span>
+                            </div>
+                        </div>
+
+                        <div class="activity-item">
+                            <div class="activity-icon success">
+                                <i class="fas fa-file-medical"></i>
+                            </div>
+                            <div class="activity-content">
+                                <h5>Prescrição médica</h5>
+                                <p>Nova prescrição disponível - Dr. Carlos Silva</p>
+                                <span class="activity-time">Há 1 semana</span>
+                            </div>
+                        </div>
+
+                        <div class="activity-item">
+                            <div class="activity-icon warning">
+                                <i class="fas fa-clock"></i>
+                            </div>
+                            <div class="activity-content">
+                                <h5>Lembrete de consulta</h5>
+                                <p>Consulta com Dr. Roberto Lima em 15 dias</p>
+                                <span class="activity-time">Há 2 semanas</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </main>
+    </div>
+
+    <!-- Modais -->
+    <!-- Modal Consultas Agendadas -->
+    <div id="consultasModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <div class="modal-title">
+                    <div class="modal-icon primary">
+                        <i class="fas fa-calendar-check"></i>
+                    </div>
+                    Consultas Agendadas
+                </div>
+                <button class="close-btn" onclick="closeModal('consultasModal')">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="modal-section">
+                    <h4><i class="fas fa-chart-pie"></i> Estatísticas</h4>
+                    <div class="info-grid">
+                        <div class="info-item">
+                            <h5>Total Agendadas</h5>
+                            <p>2</p>
+                        </div>
+                        <div class="info-item">
+                            <h5>Esta Semana</h5>
+                            <p>1</p>
+                        </div>
+                        <div class="info-item">
+                            <h5>Próximas</h5>
+                            <p>2</p>
+                        </div>
+                        <div class="info-item">
+                            <h5>Canceladas</h5>
+                            <p>0</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-section">
+                    <h4><i class="fas fa-clock"></i> Próximas Consultas</h4>
+                    <ul class="modal-list">
+                        <li>
+                            <span>12/06/2025 - 09:00 - Dr. Carlos Silva</span>
+                            <span>Cardiologia - Retorno</span>
+                        </li>
+                        <li>
+                            <span>20/12/2025 - 14:30 - Dra. Ana Costa</span>
+                            <span>Teleconsulta - Acompanhamento</span>
+                        </li>
+                        <li>
+                            <span>15/01/2026 - 10:15 - Dr. Roberto Lima</span>
+                            <span>Cardiologia - Primeira consulta</span>
+                        </li>
+                    </ul>
+                </div>
+                <div class="modal-section">
+                    <h4><i class="fas fa-calendar-alt"></i> Histórico Recente</h4>
+                    <ul class="modal-list">
+                        <li>
+                            <span>05/05/2025 - 15:30 - Dr. Carlos Silva</span>
+                            <span>Cardiologia - Realizada</span>
+                        </li>
+                        <li>
+                            <span>28/04/2025 - 11:00 - Dra. Ana Costa</span>
+                            <span>Teleconsulta - Realizada</span>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="modal-btn secondary" onclick="closeModal('consultasModal')">Fechar</button>
+                <button class="modal-btn primary" onclick="agendarConsulta()">Agendar Nova Consulta</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal Exames Pendentes -->
+    <div id="examesModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <div class="modal-title">
+                    <div class="modal-icon warning">
+                        <i class="fas fa-vial"></i>
+                    </div>
+                    Exames Pendentes
+                </div>
+                <button class="close-btn" onclick="closeModal('examesModal')">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="modal-section">
+                    <h4><i class="fas fa-exclamation-triangle"></i> Status dos Exames</h4>
+                    <div class="info-grid">
+                        <div class="info-item">
+                            <h5>Pendentes</h5>
+                            <p>1</p>
+                        </div>
+                        <div class="info-item">
+                            <h5>Agendados</h5>
+                            <p>1</p>
+                        </div>
+                        <div class="info-item">
+                            <h5>Realizados</h5>
+                            <p>3</p>
+                        </div>
+                        <div class="info-item">
+                            <h5>Resultados</h5>
+                            <p>2</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-section">
+                    <h4><i class="fas fa-list"></i> Exames Pendentes</h4>
+                    <ul class="modal-list">
+                        <li>
+                            <span>Ecocardiograma</span>
+                            <span>Agendado para 20/12/2025</span>
+                        </li>
+                        <li>
+                            <span>Holter 24h</span>
+                            <span>Pendente de agendamento</span>
+                        </li>
+                    </ul>
+                </div>
+                <div class="modal-section">
+                    <h4><i class="fas fa-check-circle"></i> Resultados Disponíveis</h4>
+                    <ul class="modal-list">
+                        <li>
+                            <span>Hemograma Completo</span>
+                            <span>Disponível - 15/05/2025</span>
+                        </li>
+                        <li>
+                            <span>Glicemia de Jejum</span>
+                            <span>Disponível - 10/05/2025</span>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="modal-btn secondary" onclick="closeModal('examesModal')">Fechar</button>
+                <button class="modal-btn primary" onclick="agendarExame()">Agendar Exame</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal Medicamentos -->
+    <div id="medicamentosModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <div class="modal-title">
+                    <div class="modal-icon success">
+                        <i class="fas fa-pills"></i>
+                    </div>
+                    Medicamentos
+                </div>
+                <button class="close-btn" onclick="closeModal('medicamentosModal')">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="modal-section">
+                    <h4><i class="fas fa-chart-pie"></i> Estatísticas</h4>
+                    <div class="info-grid">
+                        <div class="info-item">
+                            <h5>Total Ativos</h5>
+                            <p>3</p>
+                        </div>
+                        <div class="info-item">
+                            <h5>Em Dia</h5>
+                            <p>3</p>
+                        </div>
+                        <div class="info-item">
+                            <h5>Próximo Vencimento</h5>
+                            <p>15 dias</p>
+                        </div>
+                        <div class="info-item">
+                            <h5>Adesão</h5>
+                            <p>95%</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-section">
+                    <h4><i class="fas fa-pills"></i> Medicamentos Ativos</h4>
+                    <ul class="modal-list">
+                        <li>
+                            <span>Losartana 50mg</span>
+                            <span>1x ao dia - 08:00</span>
+                        </li>
+                        <li>
+                            <span>Atenolol 25mg</span>
+                            <span>1x ao dia - 08:00</span>
+                        </li>
+                        <li>
+                            <span>Sinvastatina 20mg</span>
+                            <span>1x ao dia - 20:00</span>
+                        </li>
+                    </ul>
+                </div>
+                <div class="modal-section">
+                    <h4><i class="fas fa-clock"></i> Lembretes</h4>
+                    <ul class="modal-list">
+                        <li>
+                            <span>Losartana - 08:00</span>
+                            <span>Próximo: Amanhã</span>
+                        </li>
+                        <li>
+                            <span>Atenolol - 08:00</span>
+                            <span>Próximo: Amanhã</span>
+                        </li>
+                        <li>
+                            <span>Sinvastatina - 20:00</span>
+                            <span>Próximo: Hoje</span>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="modal-btn secondary" onclick="closeModal('medicamentosModal')">Fechar</button>
+                <button class="modal-btn primary" onclick="configurarLembretes()">Configurar Lembretes</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal Notificações -->
+    <div id="notificacoesModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <div class="modal-title">
+                    <div class="modal-icon primary">
+                        <i class="fas fa-bell"></i>
+                    </div>
+                    Notificações
+                </div>
+                <button class="close-btn" onclick="closeModal('notificacoesModal')">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="modal-section">
+                    <h4><i class="fas fa-bell"></i> Notificações Não Lidas</h4>
+                    <ul class="modal-list">
+                        <li>
+                            <span>Consulta confirmada com Dr. Silva</span>
+                            <span>Há 2 horas</span>
+                        </li>
+                        <li>
+                            <span>Resultado de exame disponível</span>
+                            <span>Há 1 dia</span>
+                        </li>
+                        <li>
+                            <span>Lembrete de medicamento</span>
+                            <span>Há 2 dias</span>
+                        </li>
+                    </ul>
+                </div>
+                <div class="modal-section">
+                    <h4><i class="fas fa-history"></i> Histórico de Notificações</h4>
+                    <ul class="modal-list">
+                        <li>
+                            <span>Teleconsulta agendada</span>
+                            <span>Há 3 dias</span>
+                        </li>
+                        <li>
+                            <span>Prescrição médica disponível</span>
+                            <span>Há 1 semana</span>
+                        </li>
+                        <li>
+                            <span>Lembrete de consulta</span>
+                            <span>Há 2 semanas</span>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="modal-btn secondary" onclick="closeModal('notificacoesModal')">Fechar</button>
+                <button class="modal-btn primary" onclick="marcarTodasComoLidas()">Marcar Todas como Lidas</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function toggleSidebar() {
+            const sidebar = document.getElementById('sidebar');
+            sidebar.classList.toggle('open');
+        }
+
+        function logout() {
+            if (confirm('Tem certeza que deseja sair?')) {
+                window.location.href = 'index.html';
+            }
+        }
+
+        // Close sidebar when clicking outside on mobile
+        document.addEventListener('click', function(event) {
+            const sidebar = document.getElementById('sidebar');
+            const mobileBtn = document.querySelector('.mobile-menu-btn');
+            
+            if (window.innerWidth <= 1024 && 
+                !sidebar.contains(event.target) && 
+                !mobileBtn.contains(event.target)) {
+                sidebar.classList.remove('open');
+            }
+        });
+
+        // Handle window resize
+        window.addEventListener('resize', function() {
+            const sidebar = document.getElementById('sidebar');
+            if (window.innerWidth > 1024) {
+                sidebar.classList.remove('open');
+            }
+        });
+
+        // Add click effects to stat cards and open modals
+        document.querySelectorAll('.stat-card').forEach((card, index) => {
+            card.addEventListener('click', function() {
+                this.style.transform = 'scale(0.98)';
+                setTimeout(() => {
+                    this.style.transform = 'translateY(-4px)';
+                }, 150);
+
+                // Open corresponding modal
+                const modals = ['consultasModal', 'examesModal', 'medicamentosModal', 'notificacoesModal'];
+                if (modals[index]) {
+                    openModal(modals[index]);
+                }
+            });
+        });
+
+        // Add hover effects to quick actions
+        document.querySelectorAll('.quick-action').forEach(action => {
+            action.addEventListener('mouseenter', function() {
+                this.style.transform = 'translateY(-4px) scale(1.02)';
+            });
+            
+            action.addEventListener('mouseleave', function() {
+                this.style.transform = 'translateY(0) scale(1)';
+            });
+        });
+
+        // Notification click handler
+        document.querySelector('.notification-btn').addEventListener('click', function() {
+            openModal('notificacoesModal');
+        });
+
+        // Modal functions
+        function openModal(modalId) {
+            const modal = document.getElementById(modalId);
+            if (modal) {
+                modal.style.display = 'block';
+                document.body.style.overflow = 'hidden';
+            }
+        }
+
+        function closeModal(modalId) {
+            const modal = document.getElementById(modalId);
+            if (modal) {
+                modal.style.display = 'none';
+                document.body.style.overflow = 'auto';
+            }
+        }
+
+        // Close modal when clicking outside
+        window.addEventListener('click', function(event) {
+            if (event.target.classList.contains('modal')) {
+                event.target.style.display = 'none';
+                document.body.style.overflow = 'auto';
+            }
+        });
+
+        // Close modal with Escape key
+        document.addEventListener('keydown', function(event) {
+            if (event.key === 'Escape') {
+                const openModal = document.querySelector('.modal[style*="block"]');
+                if (openModal) {
+                    openModal.style.display = 'none';
+                    document.body.style.overflow = 'auto';
+                }
+            }
+        });
+
+        // Modal action functions
+        function agendarConsulta() {
+            showToast('Redirecionando para agendamento de consulta...', 'success');
+            closeModal('consultasModal');
+        }
+
+        function agendarExame() {
+            showToast('Redirecionando para agendamento de exame...', 'success');
+            closeModal('examesModal');
+        }
+
+        function configurarLembretes() {
+            showToast('Abrindo configurações de lembretes...', 'success');
+            closeModal('medicamentosModal');
+        }
+
+        function marcarTodasComoLidas() {
+            showToast('Todas as notificações foram marcadas como lidas!', 'success');
+            closeModal('notificacoesModal');
+        }
+
+        function showToast(message, type = 'info') {
+            // Create toast element
+            const toast = document.createElement('div');
+            toast.style.cssText = `
+                position: fixed;
+                top: 20px;
+                right: 20px;
+                background: ${type === 'success' ? '#10b981' : type === 'error' ? '#ef4444' : '#06b6d4'};
+                color: white;
+                padding: 1rem 1.5rem;
+                border-radius: 8px;
+                box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+                z-index: 10000;
+                animation: slideInRight 0.3s ease;
+            `;
+            toast.textContent = message;
+            
+            document.body.appendChild(toast);
+            
+            setTimeout(() => {
+                toast.style.animation = 'slideOutRight 0.3s ease';
+                setTimeout(() => {
+                    document.body.removeChild(toast);
+                }, 300);
+            }, 3000);
+        }
+
+        // Add CSS for toast animations
+        const style = document.createElement('style');
+        style.textContent = `
+            @keyframes slideInRight {
+                from { transform: translateX(100%); opacity: 0; }
+                to { transform: translateX(0); opacity: 1; }
+            }
+            @keyframes slideOutRight {
+                from { transform: translateX(0); opacity: 1; }
+                to { transform: translateX(100%); opacity: 0; }
+            }
+        `;
+        document.head.appendChild(style);
+    </script>
+</body>
+</html>
